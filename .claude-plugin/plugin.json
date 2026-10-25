@@ -1,0 +1,15 @@
+{
+  "name": "shoutni",
+  "displayName": "SHOUTNI",
+  "version": "0.1.0",
+  "description": "Bring real people's shared experiences into your AI chat. Find relevant advice, collaborators, activities and items, and choose what to share through your SHOUTNI profiles.",
+  "author": {
+    "name": "Planesta",
+    "url": "https://www.shoutni.com"
+  },
+  "icon": "./assets/shoutni-icon.png",
+  "documentationUrl": "https://www.shoutni.com/#chatgpt",
+  "supportUrl": "https://www.shoutni.com/support",
+  "privacyPolicyUrl": "https://www.shoutni.com/privacy",
+  "termsOfServiceUrl": "https://www.shoutni.com/terms"
+}

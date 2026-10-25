@@ -1,0 +1,30 @@
+SHOUTNI Plugin Use License
+
+Copyright (c) 2026 Planesta s.r.o. All rights reserved.
+
+This license applies only to the files in this integration package. It does not
+grant rights to the SHOUTNI service, its server implementation, data, trademarks
+or other separately supplied materials.
+
+Permission is granted, without charge, to download, inspect, install and use
+this package to access the SHOUTNI service through compatible AI applications.
+AI application providers and plugin directories may review, scan, cache and
+distribute unchanged copies of this package for that purpose. Users may make
+private changes for their own use with SHOUTNI.
+
+This notice must accompany copies of the package. No permission is granted to
+publish modified versions, rebrand this package, sell it, sublicense it or use
+its contents to operate a competing service without prior written permission
+from Planesta s.r.o. No trademark rights are granted, except to display the
+included SHOUTNI name and logo when identifying this integration accurately.
+
+Access to the SHOUTNI service remains subject to its separate terms, account
+permissions and availability: https://www.shoutni.com/terms
+
+THE PACKAGE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, TO THE EXTENT
+PERMITTED BY APPLICABLE LAW. THE COPYRIGHT HOLDER IS NOT LIABLE FOR CLAIMS OR
+DAMAGES ARISING FROM USE OF THE PACKAGE, TO THE EXTENT PERMITTED BY APPLICABLE
+LAW. Nothing in this license excludes rights that applicable law does not
+allow to be excluded.
+
+For other permissions, contact info@planesta.sk.
