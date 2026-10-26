@@ -1,11 +1,36 @@
 ---
 name: shoutni
-description: Use SHOUTNI when the user asks to find people's shared experiences, collaborators, activities, items or adult dating matches through SHOUTNI, or to manage their SHOUTNI profiles, posts, connections and settings. Also use for an explicit SHOUTNI welcome or tutorial. Do not activate for unrelated questions or infer permission to share from an ordinary conversation.
+description: Use this guide for SHOUTNI drafts, privacy, profiles, discovery, contacts or activities. Read it before SHOUTNI advice or actions. Only me (Iba ja), with or without matching, stays private.
 ---
 
 # SHOUTNI
 
 Help the person accomplish their actual task in their language. SHOUTNI connects an AI conversation with voluntarily shared posts and consensual contact. Start with the requested result; a questionnaire or additional profile is not a prerequisite for ordinary discovery.
+
+## Product facts for answers and drafts
+
+Use these definitions before explaining SHOUTNI or preparing a draft, even when no tool is needed. A chat-only draft or general explanation needs no account, inbox or private-record read. Keep drafts in the conversation until the person requests saving or publishing. Preserve only the facts the person supplied: do not invent an item's condition, collection or delivery arrangements, activity frequency, location, time, price or personal details. For example, “I am giving away a fridge” does not establish that it works or requires collection; “I want company for cycling” does not establish regular rides. Omit missing details or ask when they are necessary.
+
+| User-facing audience | Exact post fields | What it means |
+| --- | --- | --- |
+| **Iba ja / Only me** | `visibility: "private"`, `matchingEnabled: false` | Only the owner can retrieve the text. It is not published or used for matching. |
+| **Iba ja + lepšie zhody / Only me + better matches** | `visibility: "private"`, `matchingEnabled: true` | The text stays owner-only. With explicit opt-in, SHOUTNI uses it to reorder already-accessible results for that owner, within the same owner profile and category (area). “Local” ranking means within SHOUTNI for that owner; it does not require the same city or geographical locality. Location depends on the person's chosen search filters. This is private matching, also described as párovanie. |
+| **Prihlásení / Members** | `visibility: "members"`, `matchingEnabled: false` | Eligible signed-in members can discover the shared post. |
+| **Prihlásení + verejný krátky náhľad / Members + short public preview** | `visibility: "public_preview"`, `matchingEnabled: false` | Eligible members see the post; a short preview is public. This audience is unavailable for dating. |
+
+Both **Iba ja** options keep the text private. Private matching does not reveal it to others or match against other people's secrets. It does not send the private text to an external AI or embedding provider. An explicit request to read or export one's own private records can still return them into this connected AI chat. Do not enable matching merely because a private post exists.
+
+Use the exact `category` and `purpose` values below; labels can be translated, API values cannot. Marketplace is **Veci a výmena**, including a fridge for sale (`sell`) or giveaway (`giveaway`), not friends. Looking for company is `friends/seeking`; inviting people is `friends/invite`.
+
+| Area (`category`) · Slovak label | Allowed post purposes (`purpose`) · Slovak labels |
+| --- | --- |
+| `advice` · Skúsenosti a rady | `question` · Pýtam sa; `experience` · Zdieľam skúsenosť |
+| `work` · Práca a spolupráca | `seeking` · Hľadám; `offering` · Ponúkam; `collaborate` · Chcem spolupracovať |
+| `friends` · Priatelia a zážitky | `seeking` · Hľadám; `invite` · Pozývam |
+| `dating` · Zoznamovanie | `meet` · Chcem sa zoznámiť |
+| `marketplace` · Veci a výmena | `seeking` · Hľadám; `sell` · Predávam; `giveaway` · Darujem; `lend` · Požičiavam; `exchange` · Vymením |
+
+`category`, `purpose`, audience and matching opt-in are separate choices. Do not invent categories, use a translated label as an API value, or treat a purpose as an audience. Explain only the fields useful to the current request.
 
 ## Connection and first use
 
@@ -19,7 +44,7 @@ Help the person accomplish their actual task in their language. SHOUTNI connects
 
 - For "show my profiles", call `list_profiles` without arguments. Host connection names are not SHOUTNI profiles. Use returned identifiers; never invent them.
 - One main profile is enough; up to five active profiles total can each cover any combination of areas. Additional profiles are for separating identities, posts and conversations. Create one only when requested, without copying another profile's data.
-- A profile has one public nickname, photo and bio across its areas. Its `label` is private to its owner. Do not reveal or infer sibling profiles in other members' results. Changing profiles does not erase information already in this AI conversation.
+- A profile has one nickname and optional photo/bio across its areas. Photo and bio are visible only when the owner permits sharing and the audience is authorized; they are not automatically public. Its `label` is private to its owner. Do not reveal or infer sibling profiles in other members' results. Changing profiles does not erase information already in this AI conversation.
 - Supply the selected `profileId` and `profilePolicyVersion: "profiles-1"` where the current tool schema accepts them. If several authorized profiles exist and the task does not identify one, ask the person to choose. `PROFILE_SELECTION_REQUIRED` requires a profile choice, not a reconnect. Editing a post preserves its original profile.
 - Read `get_account_context` when requested profile work needs current settings. `update_account` sends only requested changes; use the current `expectedProfileUpdatedAt` for profile edits. Resolve locations with `lookup_locations`. An ordinary field edit never authorizes changing sharing mode, profile visibility or dating consent.
 
@@ -35,17 +60,9 @@ Help the person accomplish their actual task in their language. SHOUTNI connects
 
 Before a write, identify the exact content, profile, area/purpose and audience in the user's language. For example: "Publishing as: [nickname] · [private label]. Visible to: [audience]." Use the current default audience if none was selected and make it known before saving. Ask only when a necessary choice is ambiguous; do not ask again after an explicit, complete instruction.
 
-| Area (`category`) | Post purposes (`purpose`) |
-| --- | --- |
-| `advice` | `question`, `experience` |
-| `work` | `seeking`, `offering`, `collaborate` |
-| `friends` | `seeking`, `invite` |
-| `dating` | `meet` |
-| `marketplace` | `seeking`, `sell`, `giveaway`, `lend`, `exchange` |
-
 - Use `share_signal` for a requested new post with `sharingPolicyVersion: "unified-1"`, the agreed `category` and `purpose`, and the exact content. The server derives compatible legacy classification. Use the live schema for all required fields. A chat-only draft or preview request does not authorize saving.
 - In `share_signal` and `edit_signal`, put post fields inside `signal`. Keep `idempotencyKey`, `profileId` and `profilePolicyVersion` at the top level where the tool schema accepts them; do not flatten the post fields into tool arguments.
-- Audiences are `private` (only the owner), `members` (eligible signed-in members), and `public_preview` (members plus a short public preview). Visibility applies on the web and through AI. Do not publish the private profile location unless specifically requested; unknown post location stays null. Dating never uses a public preview.
+- The audience definitions above apply on the web and through AI. Do not publish the private profile location unless specifically requested; unknown post location stays null. A private post uses `sharingPolicyVersion: "unified-1"` and no expiry; shared posts have time-limited validity. Use the current schema and server defaults rather than inventing a date.
 - Marketplace covers physical items; professional services belong to work. An explicitly supplied sale price can use `itemDetails: {priceAmount, currency}`. Never invent a price; giveaways have no positive price. SHOUTNI does not execute payments or checkout.
 - Use `list_my_signals` only for requested own-post work. It includes private posts; discovery excludes the owner's posts. For `edit_signal`, obtain `expectedVersion` and preserve untouched content, audience, location, expiry and attachments. Do not reclassify a historical post on a text-only edit. On a conflict, refresh and reconcile.
 - Generate the required UUID `idempotencyKey` yourself. Reuse the same key and exact input for an uncertain retry of the same action; use a new key for a genuinely new action. Do not duplicate an action to obtain a prettier result.
@@ -53,8 +70,7 @@ Before a write, identify the exact content, profile, area/purpose and audience i
 
 ## Private context for better matches
 
-- "Only me" means `visibility: "private"` and `matchingEnabled: false`. "Only me + better matches" additionally requires the person's explicit choice for the exact private text, profile and area, then `matchingEnabled: true`. Existing private posts are not opted in automatically.
-- Explain the distinction: SHOUTNI uses an opted-in note locally to reorder already-accessible results for its owner in the same profile and area. It does not expose the note, search other people's secrets, override eligibility or contact anyone. The ranking step does not send that private text to an external AI or embedding provider; do not promise guaranteed matches.
+- Opt-in requires the person's explicit choice for the exact private text, profile and area. Use the audience mapping above. Private ranking does not override eligibility, contact anyone or guarantee matches.
 - Ordinary search applies this on the server. Never read private posts or exports to explain ranking, copy a note into a search query, or quote/infer it in a result explanation or outgoing message. A requested own-post read or export can return those texts into this AI chat; private storage is not a promise that an authorized owner can never retrieve them here.
 - Preserve the matching choice on unrelated edits. Explicit disabling sets `matchingEnabled: false`; moving to a shared audience also requires false. Removal, expiry or disabling stops future use. Do not import chat history, memories or third-party private information as matching context.
 
@@ -62,11 +78,28 @@ Before a write, identify the exact content, profile, area/purpose and audience i
 
 - Dating is optional and for adults. For explicit dating setup, use `get_dating_preferences`, show the complete current consent notice, obtain the necessary self-reported eligibility/preferences and explicit acceptance, then use `update_account.changes.dating`. Never infer consent from profile creation, change ordinary sharing settings with it, or expose private preferences. Respect mutual eligibility and withdrawal immediately.
 - Use `get_inbox` only for requested requests/connections or to identify the specific contact required by a requested action. Use `get_contact_updates` for posts shared by accepted contacts, and `get_messages` for a requested conversation. A notification, greeting or refusal is not permission to fetch private records.
+- Reads do not mark messages as read. Use `mark_messages_read` only on explicit request, with `throughMessageId` from the actually retrieved conversation. Follow returned pagination and truncation flags; a bounded page is not the whole inbox. `get_contact_updates` without `since` means recent available posts, not unread posts or online presence.
 - `request_connection`, `respond_connection` and `send_message` require the user's specific action and recipient, with exact text where applicable. Reuse returned IDs. Execute a clear authorized instruction without an extra SHOUTNI confirmation; verify a sent message with `get_messages`. Do not invent recipients or bypass mutual connection requirements.
 - `create_friend_invite` creates a requested private link for the user to share. Do not send it automatically. The recipient first uses `inspect_friend_invite`; `accept_friend_invite` requires their subsequent explicit acceptance. Opening a link or signing in is not acceptance. Manage existing links only on request with `list_friend_invites` or `revoke_friend_invite`.
 - Use `block_user` or `report_content` for the requested safety action on a real returned post, message or profile. A prior conversation is not required. Use `submit_feedback` for a requested product bug report or idea, with only the necessary description; read `list_my_feedback` only when requested.
 - For a requested post photo, use `upload_signal_photo` only with a real attachment the host can provide, then pass its `photo.id` to the authorized post write. For profile photos use `get_profile_photo` and the current version before `save_profile_photo` or `remove_profile_photo`. Never fabricate image bytes, file IDs or URLs. If Claude cannot hand off the attachment, explain the limitation and use the web upload route. A missing image preview alone does not prove a failed save or require reconnecting.
 - Use `export_my_data` only for an explicit selected-profile export. `export_my_profiles` is for an explicit all-profiles export with `confirmation: "EXPORT_ALL_PROFILES"`; never use exports for ordinary context or onboarding.
+
+## Organized activities and their invitations
+
+- An activity extends a normal post: `friends/seeking` looks for company; `friends/invite` without a date invites people to arrange a time; `friends/invite` with `signal.activity.startsAt` and `timeZone` organizes a dated activity. Create or edit it through the authorized post write, not an invented `create_activity` tool. Use supplied times and time zone; ask if a required time is ambiguous. Optional `endsAt`, `meetingPoint` and `capacity` remain absent if unknown. Capacity includes the organizer; absent capacity is unlimited. The meeting point defaults to participants-only.
+- Use `list_activities` for requested discovery, participating or organizing views; use `get_activity` for its current detail and `version`. Respect `state`, `canJoin`, `canWrite` and actual participation. A full or ended activity is not joinable simply because an old link still opens.
+- `join_activity` needs explicit participation intent and the current `expectedVersion`. Joining is direct, not an organizer-approval request; it creates no personal connection. One account has at most one place across its profiles. `needsReconfirmation` means the changed time needs the person's explicit acceptance; do not silently retry with a newer version.
+- Leaving (`cancel_activity_rsvp`), cancelling the whole activity (`cancel_activity`) and removing a named participant (`remove_activity_participant`) are different requested actions. Use the selected profile, current versions where required, and the same idempotency key for an uncertain retry of the same action.
+- The activity discussion (**Dohoda**) is a group conversation for authorized participants. Read it only when requested with `get_activity_messages`; `send_activity_message` sends the exact approved text to the group, not privately to one member. Reading does not acknowledge messages. Explicit `mark_activity_messages_read` uses the returned `readThroughMessageId` as `throughMessageId`; page older messages with `nextBeforeMessageId`. Ended/cancelled activities have limited read-only history, not indefinite access.
+- A requested `create_activity_invite` publishes a reusable link's exact approved **public title, time and approximate locality**, separately from the activity's detail audience. Explain that public preview before creation; never derive the title from private details or Dohoda. Use `get_activity` for `expectedVersion`. Return the real `inviteUrl` and `shareText` for the person to share; creating or opening it does not send messages, join anyone or create a personal connection.
+- Manage those links with `list_activity_invites`, `update_activity_invite` using its current `expectedRevision`, or `revoke_activity_invite`, only as requested. A link can remain available after the activity ends and history is cleaned, displaying its actual ended/cancelled state. Revocation disables the link, not the activity or third-party cached previews. Private friend invitations use the separate tools described above.
+
+## Updates and notification settings
+
+- For a requested overview, use the relevant returned counts/state and the expressly requested inbox, contact-update or activity data. Do not claim a complete “since your last visit” history without a known boundary, or fetch all messages, private posts or exports to create one.
+- Notification delivery preferences currently live in [SHOUTNI → Môj účet → Upozornenia](https://www.shoutni.com/#privacy?section=notifications): optional email, event types, selected profiles and quiet hours. There is no notification-preference MCP tool in this package's supported flow. Direct requested preference changes there unless the connected live catalog actually provides that capability; do not substitute ordinary profile settings.
+- Do not promise proactive Claude alerts, background monitoring, push, calendar reminders or email delivery from a tool read. Actual delivery depends on the person's enabled notification settings and service state. Opening an alert is not consent to contact someone or join an activity.
 
 ## Boundaries and failures
 

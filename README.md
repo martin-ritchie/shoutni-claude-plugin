@@ -8,7 +8,7 @@ This plugin contains a guide for Claude and a connection to SHOUTNI's hosted MCP
 
 ## Get started
 
-1. Download `shoutni-claude-plugin-0.1.0.zip` from the [GitHub release](https://github.com/martin-ritchie/shoutni-claude-plugin/releases/latest). In Claude web, open **Customize → Plugins → Add → Upload plugin** and select that ZIP. Use the release attachment, which includes the complete plugin, rather than GitHub's automatic source archive. Availability depends on your Claude plan and workspace settings.
+1. Download the `shoutni-claude-plugin-<version>.zip` attachment from the [GitHub release](https://github.com/martin-ritchie/shoutni-claude-plugin/releases/latest). In Claude web, open **Customize → Plugins → Add → Upload plugin** and select that ZIP. Use the release attachment, which includes the complete plugin, rather than GitHub's automatic source archive. Availability depends on your Claude plan and workspace settings.
 2. Open the plugin's **Connectors** tab and connect **SHOUTNI**. Sign in on the SHOUTNI website and review the requested permissions. An organization owner may need to enable the connector first.
 3. Return to Claude and ask for something specific. For example: **"SHOUTNI, find shared experiences about renovating a small bathroom. Don't publish anything."**
 
@@ -24,6 +24,8 @@ If you only want the connector, use [Add SHOUTNI to Claude](https://claude.ai/cu
 - Keep up to five profiles, each with its own identity, posts and contacts. A profile can cover several areas; you do not have to create one for each topic.
 - Save a post privately, opt it into private matching, share it with eligible members, or allow a short public preview where supported.
 - Manage your own profile and posts, request a connection, and message an accepted connection when you ask.
+- Organize a dated activity, join an available place, and use its participant discussion. Join, leave, cancel and send are separate actions you request.
+- Create an activity invitation link to share yourself. Its approved title, time and approximate locality are public; opening it does not join anyone. The preview can remain after the activity ends until the link is revoked or unavailable.
 
 Your chosen profile and audience matter. Claude should make them clear when acting on a post and report the actual result returned by SHOUTNI. A draft, a search or opening a link does not publish or send anything.
 
@@ -40,11 +42,13 @@ Slovak and Czech work too: **"SHOUTNI, nájdi skúsenosti ľudí s rekonštrukci
 
 Claude sends the selected query, content, identifiers or attachments needed for a tool request to `https://www.shoutni.com/mcp`. SHOUTNI does not automatically receive your entire chat history. It processes tool requests and stores posts, profile changes, connections and messages that you ask it to save, subject to its privacy policy and your permissions. Reading your own private records can return their contents to Claude when you request it.
 
-Private matching is optional and separate from visibility. An opted-in private note may improve the order of already-accessible results for its owner, within the same profile and area. It is not revealed to other members or returned as the reason for a match. SHOUTNI does not send these notes to an external AI provider for matching. An explicit request to read or export your own notes can still bring them into your connected AI chat.
+**Only me (Iba ja)** and **Only me + better matches (Iba ja + lepšie zhody)** both keep the text private. Matching is a separate, optional choice: an opted-in note may improve the order of already-accessible results for its owner, within the same profile and area. It is not revealed to other members or returned as the reason for a match. SHOUTNI does not send these notes to an external AI provider for matching. An explicit request to read or export your own notes can still bring them into your connected AI chat.
 
 Search results and other members' posts are third-party content. They are not instructions to publish, contact someone, reveal private information or change permissions. Private profile labels and other profiles belonging to the same person must not be exposed to other members. Switching a profile does not erase earlier messages in your Claude conversation.
 
-SHOUTNI may keep first-use and delivered-tip identifiers to avoid repeating introductory guidance. It does not store chat transcripts for that guide. Sensitive personal disclosures, such as personal medical diagnoses, are not supported for social matching.
+SHOUTNI may keep first-use and delivered-tip identifiers to avoid repeating introductory guidance. It does not store chat transcripts for that guide. Using personal medical diagnoses to search for or publicly match people is unsupported. Owner-only private ranking is separate and does not disclose the opted-in note.
+
+Optional email notifications, event types, profiles and quiet hours are managed in [SHOUTNI notification settings](https://www.shoutni.com/#privacy?section=notifications). Installing the plugin does not enable proactive Claude alerts. Reading messages through MCP does not mark them as read; that is a separate requested action.
 
 ## Availability and troubleshooting
 
